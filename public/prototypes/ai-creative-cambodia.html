@@ -1,0 +1,1220 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>AI Creative Cambodia — Studio for Cambodian SMEs</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,400&family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Noto+Serif+Khmer:wght@400;500;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --cream:   #F2EAD3;
+  --cream-2: #E9DFC2;
+  --paper:   #FBF6E7;
+  --ink:     #15201A;
+  --forest:  #1B3F2A;
+  --forest-2:#0E2418;
+  --signal:  #DD4A14;        /* sharp burnt orange-red */
+  --signal-2:#B53A0E;
+  --mute:    #6F6B5C;
+  --line:    rgba(21,32,26,0.15);
+  --line-strong: rgba(21,32,26,0.5);
+
+  --serif:    'Instrument Serif', 'Times New Roman', serif;
+  --news:     'Newsreader', 'Times New Roman', serif;
+  --sans:     'Geist', system-ui, sans-serif;
+  --mono:     'Geist Mono', ui-monospace, monospace;
+  --km:       'Noto Serif Khmer', var(--news);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: var(--cream);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; cursor: pointer; }
+
+/* ─── Paper grain overlay ─────────────────────────────── */
+body::before {
+  content: "";
+  position: fixed; inset: 0; pointer-events: none; z-index: 1;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.08 0 0 0 0 0.1 0 0 0 0 0.08 0 0 0 0.07 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  opacity: 0.55;
+  mix-blend-mode: multiply;
+}
+
+/* ─── Masthead bar ────────────────────────────────────── */
+.masthead-strip {
+  border-bottom: 1px solid var(--line-strong);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 8px 28px;
+  display: flex; justify-content: space-between; align-items: center;
+  color: var(--ink);
+  position: relative; z-index: 5;
+}
+.masthead-strip .blink {
+  display: inline-block; width: 7px; height: 7px; border-radius: 50%;
+  background: var(--signal); margin-right: 6px; vertical-align: 1px;
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%,100% { opacity: 1; transform: scale(1); }
+  50% { opacity: .4; transform: scale(.6); }
+}
+
+/* ─── Top nav (masthead) ─────────────────────────────── */
+.masthead {
+  padding: 22px 28px 18px;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: end;
+  gap: 28px;
+  border-bottom: 1px solid var(--line-strong);
+  position: relative; z-index: 5;
+}
+.mast-left, .mast-right { font-family: var(--mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--mute); }
+.mast-right { text-align: right; display: flex; gap: 22px; justify-content: flex-end; align-items: center; }
+.mast-right a:hover { color: var(--signal); }
+.mast-cta {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 16px; border-radius: 999px;
+  background: var(--forest); color: var(--cream);
+  font-family: var(--sans); font-size: 12.5px; letter-spacing: 0;
+  text-transform: none;
+  transition: background .2s;
+}
+.mast-cta:hover { background: var(--signal); }
+
+.wordmark {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 38px;
+  line-height: 1;
+  color: var(--forest);
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+  position: relative;
+}
+.wordmark::after {
+  content: "·"; color: var(--signal); margin: 0 4px;
+}
+.wordmark-sub {
+  display: block;
+  font-family: var(--mono); font-size: 10.5px; letter-spacing: .18em;
+  text-transform: uppercase; color: var(--mute);
+  text-align: center;
+  margin-top: 4px;
+}
+
+/* ─── HERO ────────────────────────────────────────────── */
+.hero {
+  padding: 48px 28px 80px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  gap: 48px;
+  position: relative; z-index: 2;
+  border-bottom: 1px solid var(--line-strong);
+}
+
+.hero-eyebrow {
+  display: flex; align-items: center; gap: 14px;
+  font-family: var(--mono); font-size: 11px; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--mute);
+  margin-bottom: 28px;
+}
+.hero-eyebrow .rule { flex: 1; height: 1px; background: var(--line-strong); }
+
+.hero h1 {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(56px, 9vw, 156px);
+  line-height: 0.88;
+  letter-spacing: -0.035em;
+  color: var(--forest);
+  margin: 0 0 28px;
+  text-wrap: balance;
+}
+.hero h1 em {
+  font-style: italic;
+  color: var(--signal);
+}
+.hero h1 .km {
+  display: block;
+  font-family: var(--km);
+  font-size: 0.42em;
+  font-style: normal;
+  line-height: 1.15;
+  color: var(--ink);
+  font-weight: 400;
+  margin-top: 10px;
+  letter-spacing: 0;
+}
+
+.hero-lead {
+  font-family: var(--news);
+  font-weight: 300;
+  font-size: clamp(17px, 1.5vw, 22px);
+  line-height: 1.45;
+  max-width: 520px;
+  margin: 0 0 36px;
+  color: var(--ink);
+}
+.hero-lead em { font-style: italic; }
+
+.hero-actions { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+.btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 14px 22px; border-radius: 999px; border: 1px solid transparent;
+  font-family: var(--sans); font-size: 14.5px; font-weight: 500;
+  transition: all .2s ease;
+}
+.btn-primary { background: var(--forest); color: var(--cream); }
+.btn-primary:hover { background: var(--signal); transform: translateY(-1px); }
+.btn-ghost { background: transparent; color: var(--ink); border-color: var(--line-strong); }
+.btn-ghost:hover { background: var(--ink); color: var(--cream); border-color: var(--ink); }
+.btn .arrow {
+  display: inline-block; width: 16px; height: 16px;
+}
+
+.hero-meta {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 28px; margin-top: 56px;
+  padding-top: 28px; border-top: 1px solid var(--line);
+}
+.hero-meta-item .num {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 44px;
+  line-height: 1;
+  color: var(--forest);
+  letter-spacing: -0.02em;
+}
+.hero-meta-item .label {
+  font-family: var(--mono); font-size: 10.5px; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--mute);
+  margin-top: 8px;
+}
+
+/* ─── Hero collage ─────────────────────────────────────── */
+.collage {
+  position: relative;
+  min-height: 560px;
+}
+.plate {
+  position: absolute;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow:
+    0 1px 0 rgba(0,0,0,.06),
+    0 20px 50px -20px rgba(21,32,26,.35);
+  border: 1px solid rgba(0,0,0,.08);
+  background: var(--paper);
+}
+.plate .label {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  padding: 8px 10px;
+  background: rgba(255,251,238,.92);
+  backdrop-filter: blur(4px);
+  font-family: var(--mono); font-size: 10px; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--ink);
+  display: flex; justify-content: space-between; align-items: center;
+  border-top: 1px solid rgba(0,0,0,.06);
+}
+.plate .label em { font-family: var(--serif); font-style: italic; font-size: 13px; letter-spacing: 0; text-transform: none; color: var(--forest); }
+
+.plate-a { width: 62%; aspect-ratio: 4/5; top: 0; right: 0; transform: rotate(2.5deg); z-index: 1; }
+.plate-b { width: 46%; aspect-ratio: 9/16; left: 0; top: 78px; transform: rotate(-3.5deg); z-index: 2; }
+.plate-c { width: 38%; aspect-ratio: 1/1; right: 10%; bottom: -10px; transform: rotate(5deg); z-index: 3; }
+
+/* mocked product compositions */
+.mock { width: 100%; height: 100%; position: relative; display: flex; align-items: flex-end; padding: 22px 18px; color: var(--paper); }
+.mock::before {
+  content: ""; position: absolute; inset: 0;
+  background-image:
+    radial-gradient(circle at 30% 30%, rgba(255,255,255,.18), transparent 60%),
+    linear-gradient(160deg, var(--bg-a), var(--bg-b));
+}
+.mock::after {
+  content: ""; position: absolute;
+  left: 50%; bottom: 28%;
+  transform: translateX(-50%) rotate(var(--obj-rot, -4deg));
+  width: 48%; aspect-ratio: 1/1.7;
+  border-radius: 38% 38% 22% 22%;
+  background:
+    linear-gradient(170deg, rgba(255,255,255,.25), transparent 30%),
+    radial-gradient(circle at 30% 25%, var(--obj-a), var(--obj-b) 80%);
+  box-shadow: inset -8px -8px 30px rgba(0,0,0,.25), 0 14px 26px -8px rgba(0,0,0,.4);
+}
+.mock .cap {
+  position: relative; z-index: 1;
+}
+.mock .cap .kh {
+  font-family: var(--km); font-weight: 700; font-size: 14px;
+  text-shadow: 0 1px 3px rgba(0,0,0,.4);
+  margin-bottom: 4px;
+}
+.mock .cap .en {
+  font-family: var(--serif); font-style: italic;
+  font-size: 22px; line-height: 1; letter-spacing: -0.01em;
+}
+.mock .platform {
+  position: absolute; top: 12px; left: 12px;
+  font-family: var(--mono); font-size: 10px; letter-spacing: .1em;
+  text-transform: uppercase;
+  padding: 3px 7px; border-radius: 999px;
+  background: rgba(255,251,238,.18);
+  backdrop-filter: blur(4px);
+  z-index: 2;
+}
+.mock .kh-tag {
+  position: absolute; top: 12px; right: 12px;
+  font-family: var(--mono); font-size: 9.5px; letter-spacing: .08em;
+  padding: 3px 7px; border-radius: 4px;
+  background: var(--signal); color: var(--paper);
+  z-index: 2;
+}
+
+/* Annotation pin attached to hero */
+.annotation {
+  position: absolute;
+  background: var(--paper);
+  border: 1px solid var(--line-strong);
+  border-radius: 14px;
+  padding: 12px 14px 12px 14px;
+  box-shadow: 0 12px 28px -12px rgba(0,0,0,.25);
+  z-index: 10;
+  max-width: 220px;
+}
+.annotation::before {
+  content: "①";
+  position: absolute; top: -16px; left: 16px;
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--signal); color: var(--paper);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--serif); font-size: 18px;
+  box-shadow: 0 4px 10px rgba(0,0,0,.2);
+}
+.annotation .t {
+  font-family: var(--serif); font-style: italic; font-size: 18px;
+  line-height: 1.15; color: var(--forest);
+}
+.annotation .d {
+  font-family: var(--sans); font-size: 11.5px; color: var(--mute);
+  margin-top: 4px;
+}
+.annot-1 { top: 22px; left: -16px; }
+.annot-2 { bottom: 60px; right: -28px; }
+.annot-2::before { content: "②"; }
+
+/* ─── Ticker / Marquee ────────────────────────────────── */
+.ticker {
+  background: var(--forest);
+  color: var(--cream);
+  border-top: 1px solid var(--line-strong);
+  border-bottom: 1px solid var(--line-strong);
+  padding: 18px 0;
+  overflow: hidden;
+  position: relative;
+  z-index: 2;
+}
+.ticker-track {
+  display: flex; gap: 64px; white-space: nowrap;
+  animation: scroll 50s linear infinite;
+  width: max-content;
+}
+.ticker span {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 38px;
+  letter-spacing: -0.01em;
+  color: var(--cream);
+  opacity: 0.85;
+  display: inline-flex; align-items: center; gap: 64px;
+}
+.ticker span::after {
+  content: "✦";
+  color: var(--signal);
+  font-size: 22px;
+  font-style: normal;
+  opacity: 1;
+}
+@keyframes scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* ─── Section: Process ───────────────────────────────── */
+section {
+  position: relative; z-index: 2;
+  padding: 96px 28px;
+  border-bottom: 1px solid var(--line-strong);
+}
+.section-head {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr 1fr;
+  gap: 28px;
+  align-items: end;
+  margin-bottom: 64px;
+}
+.section-head .num {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(80px, 12vw, 180px);
+  line-height: 0.85;
+  color: var(--signal);
+  letter-spacing: -0.04em;
+}
+.section-head .title {
+  font-family: var(--serif);
+  font-size: clamp(42px, 5vw, 78px);
+  line-height: 0.95;
+  color: var(--forest);
+  letter-spacing: -0.025em;
+  margin: 0;
+  font-weight: 400;
+}
+.section-head .title em { font-style: italic; color: var(--signal); }
+.section-head .meta {
+  font-family: var(--mono); font-size: 11px; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--mute);
+  text-align: right;
+}
+.section-head .meta .lead {
+  font-family: var(--news);
+  font-weight: 300;
+  font-size: 17px;
+  line-height: 1.4;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--ink);
+  margin-top: 16px;
+  text-align: right;
+}
+
+.process {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  border-top: 1px solid var(--line);
+}
+.step {
+  padding: 36px 0 0 32px;
+  border-right: 1px solid var(--line);
+  position: relative;
+  min-height: 320px;
+}
+.step:last-child { border-right: none; padding-right: 0; }
+.step:first-child { padding-left: 0; }
+.step .step-num {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 88px;
+  line-height: 0.85;
+  color: var(--forest);
+  letter-spacing: -0.03em;
+}
+.step .step-num em { color: var(--signal); }
+.step .step-title {
+  font-family: var(--news);
+  font-size: 28px;
+  font-weight: 400;
+  line-height: 1.1;
+  margin: 24px 0 12px;
+  letter-spacing: -0.015em;
+}
+.step .step-body {
+  font-family: var(--sans); font-size: 14.5px; line-height: 1.6;
+  color: var(--ink); max-width: 320px;
+}
+.step .step-tag {
+  display: inline-block;
+  margin-top: 18px;
+  font-family: var(--mono); font-size: 10.5px; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--mute);
+  padding: 4px 10px;
+  border: 1px solid var(--line-strong); border-radius: 999px;
+}
+
+/* ─── Section: Work ─────────────────────────────────── */
+.work-section { background: var(--paper); }
+.bento {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-auto-rows: 110px;
+  gap: 14px;
+}
+.bento .cell { position: relative; border-radius: 6px; overflow: hidden; border: 1px solid rgba(0,0,0,.08); background: var(--cream-2); }
+.cell-1 { grid-column: span 5; grid-row: span 5; }
+.cell-2 { grid-column: span 3; grid-row: span 3; }
+.cell-3 { grid-column: span 4; grid-row: span 3; }
+.cell-4 { grid-column: span 3; grid-row: span 2; }
+.cell-5 { grid-column: span 4; grid-row: span 2; }
+.cell-6 { grid-column: span 7; grid-row: span 3; }
+.cell-7 { grid-column: span 5; grid-row: span 3; }
+
+.cell .mock { padding: 20px 16px; }
+.cell .cap .en { font-size: 18px; }
+.cell .cap .kh { font-size: 12px; }
+.cell-1 .cap .en { font-size: 28px; }
+.cell-1 .cap .kh { font-size: 16px; }
+
+.cell-caption {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 8px 10px;
+  font-family: var(--mono); font-size: 10px; letter-spacing: .1em;
+  text-transform: uppercase;
+  background: rgba(251,246,231,.94);
+  border-top: 1px solid rgba(0,0,0,.06);
+  z-index: 3;
+  color: var(--ink);
+}
+.cell-caption .credit { font-family: var(--serif); font-style: italic; font-size: 13px; letter-spacing: 0; text-transform: none; color: var(--forest); }
+
+/* ─── Pull-quote / Khmer policy ─────────────────────── */
+.policy {
+  padding: 120px 28px;
+  background: var(--forest);
+  color: var(--cream);
+  border-bottom: 1px solid var(--line-strong);
+  position: relative;
+}
+.policy::before {
+  content: "“"; position: absolute;
+  top: 36px; left: 28px;
+  font-family: var(--serif); font-size: 220px;
+  line-height: 1; color: var(--signal); opacity: .9;
+}
+.policy-inner { max-width: 1100px; margin: 0 auto; padding-left: 80px; }
+.policy .kicker {
+  font-family: var(--mono); font-size: 11px; letter-spacing: .14em;
+  text-transform: uppercase; color: rgba(242,234,211,.6);
+  margin-bottom: 20px;
+}
+.policy h2 {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(40px, 5.4vw, 84px);
+  line-height: 1;
+  letter-spacing: -0.025em;
+  margin: 0;
+}
+.policy h2 em { font-style: italic; color: var(--signal); }
+.policy h2 .km {
+  display: block;
+  font-family: var(--km); font-style: normal; font-weight: 500;
+  font-size: 0.42em; line-height: 1.2; color: var(--cream);
+  margin-top: 14px; letter-spacing: 0;
+}
+.policy .attribution {
+  margin-top: 36px;
+  display: flex; gap: 14px; align-items: center;
+  font-family: var(--sans); font-size: 13.5px;
+  color: rgba(242,234,211,.7);
+}
+.policy .attribution .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--signal); }
+
+/* ─── Pricing ─────────────────────────────────────────── */
+.pricing {
+  background: var(--cream);
+}
+.pricing-table {
+  display: grid;
+  grid-template-columns: 1.3fr repeat(3, 1fr);
+  border-top: 1px solid var(--line-strong);
+  border-bottom: 1px solid var(--line-strong);
+}
+.pricing-table > div {
+  padding: 32px 22px;
+  border-right: 1px solid var(--line);
+}
+.pricing-table > div:last-child { border-right: none; }
+.pricing-table .label-col {
+  font-family: var(--mono); font-size: 11px; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--mute);
+}
+.pricing-table .label-col strong {
+  display: block;
+  font-family: var(--serif); font-style: italic; font-weight: 400;
+  font-size: 28px; letter-spacing: -0.01em; text-transform: none;
+  color: var(--forest); margin-bottom: 4px;
+}
+.pricing-table.row-divider > div { border-top: 1px solid var(--line); }
+
+.pricing-name {
+  font-family: var(--serif); font-style: italic; font-size: 32px; line-height: 1;
+  color: var(--forest); letter-spacing: -0.015em;
+  margin-bottom: 6px;
+}
+.pricing-name .tag {
+  display: inline-block;
+  font-family: var(--mono); font-style: normal; font-size: 10px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--signal);
+  margin-left: 8px; vertical-align: 6px;
+}
+.pricing-price {
+  font-family: var(--serif); font-size: 64px; line-height: 0.95;
+  letter-spacing: -0.025em; color: var(--ink);
+}
+.pricing-price .unit { font-family: var(--sans); font-size: 14px; color: var(--mute); margin-left: 6px; vertical-align: 18px; }
+.pricing-table .featured { background: var(--paper); }
+
+.pricing-rows {
+  display: grid;
+  grid-template-columns: 1.3fr repeat(3, 1fr);
+  border-bottom: 1px solid var(--line-strong);
+}
+.pricing-rows .row-label {
+  padding: 18px 22px;
+  font-family: var(--sans); font-size: 14px; color: var(--ink);
+  border-right: 1px solid var(--line);
+  border-top: 1px solid var(--line);
+}
+.pricing-rows .cell {
+  padding: 18px 22px;
+  font-family: var(--sans); font-size: 13.5px; color: var(--ink);
+  border-right: 1px solid var(--line);
+  border-top: 1px solid var(--line);
+}
+.pricing-rows .cell:last-child { border-right: none; }
+.pricing-rows .cell .check { color: var(--signal); font-family: var(--serif); font-size: 22px; line-height: 1; }
+.pricing-rows .cell .dash { color: var(--mute); }
+.pricing-rows .featured { background: var(--paper); }
+
+.price-cta {
+  display: grid; grid-template-columns: 1.3fr repeat(3,1fr);
+  border-bottom: 1px solid var(--line-strong);
+}
+.price-cta > div { padding: 22px; border-right: 1px solid var(--line); }
+.price-cta > div:last-child { border-right: none; }
+.price-cta .featured { background: var(--paper); }
+.price-cta .btn { width: 100%; justify-content: center; }
+
+/* ─── CTA / Footer ───────────────────────────────────── */
+.cta {
+  padding: 120px 28px;
+  background: var(--cream);
+  text-align: center;
+  border-bottom: 1px solid var(--line-strong);
+}
+.cta h2 {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(56px, 9vw, 168px);
+  line-height: 0.88;
+  letter-spacing: -0.035em;
+  color: var(--forest);
+  margin: 0 0 36px;
+}
+.cta h2 em { font-style: italic; color: var(--signal); }
+.cta h2 .km {
+  display: block; font-family: var(--km); font-style: normal; font-weight: 500;
+  font-size: 0.36em; line-height: 1.2; color: var(--ink);
+  margin-top: 18px; letter-spacing: 0;
+}
+.cta-actions { display: inline-flex; gap: 14px; }
+
+footer {
+  background: var(--forest-2);
+  color: var(--cream);
+  padding: 56px 28px 28px;
+  position: relative; z-index: 2;
+  font-family: var(--sans);
+}
+.foot-grid {
+  display: grid;
+  grid-template-columns: 1.4fr repeat(3, 1fr);
+  gap: 36px;
+  padding-bottom: 36px;
+  border-bottom: 1px solid rgba(242,234,211,.15);
+}
+.foot-grid h4 {
+  font-family: var(--mono); font-size: 10.5px; letter-spacing: .14em;
+  text-transform: uppercase; color: rgba(242,234,211,.55);
+  margin: 0 0 14px;
+}
+.foot-grid a { display: block; margin-bottom: 8px; color: rgba(242,234,211,.85); font-size: 13.5px; }
+.foot-grid a:hover { color: var(--signal); }
+.foot-wordmark {
+  font-family: var(--serif); font-style: italic; font-size: 38px;
+  letter-spacing: -0.02em; line-height: 1;
+}
+.foot-wordmark span { color: var(--signal); }
+.foot-bottom {
+  display: flex; justify-content: space-between;
+  font-family: var(--mono); font-size: 11px; letter-spacing: .06em;
+  text-transform: uppercase; color: rgba(242,234,211,.5);
+  padding-top: 22px;
+}
+
+/* ─── Hairline corners ────────────────────────────────── */
+.frame {
+  position: fixed; pointer-events: none; z-index: 3;
+  border: 1px solid var(--line-strong);
+}
+.frame-tl { top: 14px; left: 14px; width: 14px; height: 14px; border-right: 0; border-bottom: 0; }
+.frame-tr { top: 14px; right: 14px; width: 14px; height: 14px; border-left: 0; border-bottom: 0; }
+.frame-bl { bottom: 14px; left: 14px; width: 14px; height: 14px; border-right: 0; border-top: 0; }
+.frame-br { bottom: 14px; right: 14px; width: 14px; height: 14px; border-left: 0; border-top: 0; }
+
+/* ─── Animations (one orchestrated load) ─────────────── */
+@keyframes riseIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn { from {opacity:0;} to {opacity:1;} }
+
+.rise > * { opacity: 0; transform: translateY(20px); animation: riseIn .9s cubic-bezier(.2,.7,.3,1) forwards; }
+.rise > *:nth-child(1) { animation-delay: .05s; }
+.rise > *:nth-child(2) { animation-delay: .15s; }
+.rise > *:nth-child(3) { animation-delay: .25s; }
+.rise > *:nth-child(4) { animation-delay: .35s; }
+.rise > *:nth-child(5) { animation-delay: .45s; }
+.rise > *:nth-child(6) { animation-delay: .55s; }
+
+.plate { opacity: 0; animation: riseIn 1s cubic-bezier(.2,.7,.3,1) forwards; }
+.plate-a { animation-delay: .35s; }
+.plate-b { animation-delay: .5s; }
+.plate-c { animation-delay: .65s; }
+.annotation { opacity: 0; animation: fadeIn .6s ease forwards; }
+.annot-1 { animation-delay: .9s; }
+.annot-2 { animation-delay: 1.05s; }
+
+/* ─── Responsive ─────────────────────────────────────── */
+@media (max-width: 1100px) {
+  .hero { grid-template-columns: 1fr; gap: 64px; }
+  .collage { min-height: 480px; }
+  .process { grid-template-columns: 1fr; }
+  .step { border-right: none; border-bottom: 1px solid var(--line); padding: 32px 0; }
+  .step:last-child { border-bottom: none; }
+  .section-head { grid-template-columns: 1fr; gap: 18px; }
+  .section-head .meta, .section-head .meta .lead { text-align: left; }
+  .bento { grid-auto-rows: 80px; }
+  .pricing-table, .pricing-rows, .price-cta { grid-template-columns: 1fr; }
+  .pricing-table > div, .pricing-rows > div, .price-cta > div { border-right: none; border-bottom: 1px solid var(--line); }
+  .policy-inner { padding-left: 0; }
+  .policy::before { font-size: 120px; top: 12px; }
+  .foot-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 640px) {
+  /* Nav / masthead */
+  .masthead-strip { padding: 7px 16px; }
+  .masthead-strip > div:nth-child(2) { display: none; }
+  .masthead { grid-template-columns: 1fr; gap: 10px; text-align: center; padding: 14px 16px 12px; }
+  .mast-left { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 14px; }
+  .mast-left a { margin-right: 0 !important; }
+  .mast-right { justify-content: center; }
+
+  /* Hero */
+  .hero { padding: 32px 16px 48px; gap: 40px; }
+  .collage { min-height: 280px; }
+  .annot-1, .annot-2 { display: none; }
+  .hero-meta { grid-template-columns: 1fr; gap: 16px; }
+  .hero-actions { flex-direction: column; align-items: stretch; }
+  .hero-actions .btn { justify-content: center; }
+
+  /* Sections */
+  section { padding: 56px 16px; }
+
+  /* Steps */
+  .step { padding: 24px 0; }
+
+  /* Work / Bento */
+  .bento { grid-template-columns: 1fr 1fr; grid-auto-rows: 130px; }
+  .cell-1 { grid-column: span 2; grid-row: span 3; }
+  .cell-2, .cell-3 { grid-column: span 1; grid-row: span 2; }
+  .cell-4, .cell-5 { grid-column: span 1; grid-row: span 2; }
+  .cell-6 { grid-column: span 2; grid-row: span 2; }
+  .cell-7 { grid-column: span 2; grid-row: span 2; }
+
+  /* Policy */
+  .policy { padding: 64px 16px; }
+  .policy::before { font-size: 72px; top: 16px; }
+
+  /* CTA */
+  .cta { padding: 72px 16px; }
+  .cta-actions { display: flex; flex-direction: column; align-items: stretch; gap: 10px; }
+  .cta-actions .btn { justify-content: center; }
+
+  /* Footer */
+  footer { padding: 40px 16px 20px; }
+  .foot-grid { grid-template-columns: 1fr; }
+  .foot-bottom { flex-direction: column; gap: 12px; }
+}
+@media (max-width: 480px) {
+  .masthead-strip { font-size: 9.5px; }
+  .mast-left { gap: 4px 10px; font-size: 10px; }
+  section { padding: 44px 14px; }
+  .hero { padding: 24px 14px 36px; }
+  .bento { grid-auto-rows: 110px; }
+  .pricing-price { font-size: 48px; }
+  footer { padding: 32px 14px 16px; }
+}
+
+</style>
+</head>
+<body>
+
+<div class="frame frame-tl"></div>
+<div class="frame frame-tr"></div>
+<div class="frame frame-bl"></div>
+<div class="frame frame-br"></div>
+
+<!-- ─── MASTHEAD STRIP ───────────────────────────────── -->
+<div class="masthead-strip">
+  <div><span class="blink"></span>Studio open · Phnom Penh · 09:00–18:00 ICT</div>
+  <div>Vol. III · No. 14 · Tuesday, 19 May 2026</div>
+  <div>EN / ខ្មែរ</div>
+</div>
+
+<!-- ─── MASTHEAD ──────────────────────────────────────── -->
+<header class="masthead">
+  <nav class="mast-left">
+    <a href="#process" style="margin-right: 18px;">Process</a>
+    <a href="#work" style="margin-right: 18px;">Work</a>
+    <a href="#policy" style="margin-right: 18px;">Khmer policy</a>
+    <a href="#pricing">Pricing</a>
+  </nav>
+
+  <div>
+    <div class="wordmark">AI Creative Cambodia</div>
+    <div class="wordmark-sub">A studio for cambodian small business · est. 2024</div>
+  </div>
+
+  <div class="mast-right">
+    <a href="/signin">Sign in</a>
+    <a href="/brief" class="mast-cta">Start a brief
+      <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+    </a>
+  </div>
+</header>
+
+<!-- ─── HERO ───────────────────────────────────────────── -->
+<section class="hero" style="border-bottom:none;">
+  <div class="rise">
+    <div class="hero-eyebrow">
+      <span>FEATURE №01</span>
+      <span class="rule"></span>
+      <span>140 SMEs · 2,400 visuals · 2026</span>
+    </div>
+
+    <h1>
+      Phone photo,<br/>
+      <em>magazine ad.</em>
+      <span class="km">រូបពីទូរស័ព្ទ ក្លាយជា ការផ្សាយពាណិជ្ជកម្ម​ដ៏ស្រស់ស្អាត។</span>
+    </h1>
+
+    <p class="hero-lead">
+      We're a small atelier in Phnom Penh that turns your raw product photos into
+      <em>scroll-stopping</em> visuals for Facebook, TikTok, and Shopee — AI-assisted,
+      human-finished, with Khmer copy set the way it deserves.
+    </p>
+
+    <div class="hero-actions">
+      <a href="/brief" class="btn btn-primary">
+        Start a brief · from $49
+        <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+      </a>
+      <a href="#work" class="btn btn-ghost">See recent work</a>
+    </div>
+
+    <div class="hero-meta">
+      <div class="hero-meta-item">
+        <div class="num">48hr</div>
+        <div class="label">First-draft turnaround</div>
+      </div>
+      <div class="hero-meta-item">
+        <div class="num">100%</div>
+        <div class="label">Human-QA'd, every asset</div>
+      </div>
+      <div class="hero-meta-item">
+        <div class="num">៛/$/USDT</div>
+        <div class="label">Pay how you pay</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COLLAGE -->
+  <div class="collage">
+    <div class="plate plate-a" style="--bg-a:#F2D9B5; --bg-b:#E0B27A; --obj-a:#DD4A14; --obj-b:#5A1A05; --obj-rot:-3deg;">
+      <div class="mock">
+        <span class="platform">FACEBOOK · 1:1</span>
+        <span class="kh-tag">KH · OVERLAY</span>
+        <div class="cap">
+          <div class="kh">ត្រជាក់ ស្រស់ ហើយធម្មជាតិ</div>
+          <div class="en" style="color:#15201A;">Cold Brew · 12oz</div>
+        </div>
+      </div>
+      <div class="label"><em>Plate i.</em><span>Angkor Beans · v3</span></div>
+    </div>
+
+    <div class="plate plate-b" style="--bg-a:#1B3F2A; --bg-b:#0E2418; --obj-a:#7A3B12; --obj-b:#2A0F03; --obj-rot:4deg;">
+      <div class="mock">
+        <span class="platform">TIKTOK · 9:16</span>
+        <span class="kh-tag">KH · OVERLAY</span>
+        <div class="cap">
+          <div class="kh" style="color:#F2EAD3;">ផឹកមួយម៉ាត់</div>
+          <div class="en" style="color:#F2EAD3;">A taste of home</div>
+        </div>
+      </div>
+      <div class="label"><em>Plate ii.</em><span>Soksan · TikTok</span></div>
+    </div>
+
+    <div class="plate plate-c" style="--bg-a:#F4A8C3; --bg-b:#E27097; --obj-a:#DD4A14; --obj-b:#7A1010; --obj-rot:6deg;">
+      <div class="mock">
+        <span class="platform">SHOPEE · 1:1</span>
+        <span class="kh-tag">KH · OVERLAY</span>
+        <div class="cap">
+          <div class="kh">ស្បែកស្រស់ស្អាត</div>
+          <div class="en" style="color:#15201A;">Riel Beauty</div>
+        </div>
+      </div>
+      <div class="label"><em>Plate iii.</em><span>Riel Beauty · Shopee</span></div>
+    </div>
+
+    <div class="annotation annot-1">
+      <div class="t">AI drafts<br/>twelve options</div>
+      <div class="d">Our team selects, polishes, and lays your Khmer overlay by hand.</div>
+    </div>
+    <div class="annotation annot-2">
+      <div class="t">Every<br/>asset, QA'd</div>
+      <div class="d">A human reviewer signs off before anything leaves the studio.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── TICKER ───────────────────────────────────────── -->
+<div class="ticker">
+  <div class="ticker-track">
+    <span>Angkor Beans</span>
+    <span>Soksan Kitchen</span>
+    <span>Riel Beauty</span>
+    <span>Bayon Pharma</span>
+    <span>Khmer Threads</span>
+    <span>Tonle Coffee</span>
+    <span>Mekong Snacks</span>
+    <span>Phnom Penh Pottery</span>
+    <span>Angkor Beans</span>
+    <span>Soksan Kitchen</span>
+    <span>Riel Beauty</span>
+    <span>Bayon Pharma</span>
+    <span>Khmer Threads</span>
+    <span>Tonle Coffee</span>
+    <span>Mekong Snacks</span>
+    <span>Phnom Penh Pottery</span>
+  </div>
+</div>
+
+<!-- ─── PROCESS ─────────────────────────────────────── -->
+<section id="process">
+  <div class="section-head">
+    <div class="num">№02</div>
+    <h2 class="title">Send Monday.<br/>Post <em>Wednesday.</em></h2>
+    <div class="meta">
+      Studio process<br/>
+      Three movements<br/>
+      <div class="lead">A simple loop. You give us raw photos and a goal — we deliver finished, on-brand, Khmer-ready visuals.</div>
+    </div>
+  </div>
+
+  <div class="process">
+    <div class="step">
+      <div class="step-num"><em>01.</em></div>
+      <div class="step-title">You send a brief</div>
+      <p class="step-body">Upload product photos, your logo, references, campaign goal, and the platforms you need. Write in Khmer or English — both work.</p>
+      <span class="step-tag">~ 4 minutes</span>
+    </div>
+
+    <div class="step">
+      <div class="step-num"><em>02.</em></div>
+      <div class="step-title">We compose &amp; review</div>
+      <p class="step-body">AI proposes twelve drafts. Our creative team chooses, polishes, and sets your Khmer copy as a typographic overlay — never burned into the AI image.</p>
+      <span class="step-tag">24–48 hours</span>
+    </div>
+
+    <div class="step">
+      <div class="step-num"><em>03.</em></div>
+      <div class="step-title">You approve &amp; post</div>
+      <p class="step-body">Review in your dashboard, leave comments, request a revision. Download a platform-ready bundle in the right ratios.</p>
+      <span class="step-tag">Same day</span>
+    </div>
+  </div>
+</section>
+
+<!-- ─── WORK ────────────────────────────────────────── -->
+<section id="work" class="work-section">
+  <div class="section-head">
+    <div class="num">№03</div>
+    <h2 class="title">From phone snap,<br/><em>to scroll-stopper.</em></h2>
+    <div class="meta">
+      Recent work<br/>
+      May 2026 · selected<br/>
+      <div class="lead">Six samples from the last fortnight. Every visual passed human QA before delivery.</div>
+    </div>
+  </div>
+
+  <div class="bento">
+    <div class="cell cell-1">
+      <div class="mock" style="--bg-a:#F2D9B5; --bg-b:#C68145; --obj-a:#DD4A14; --obj-b:#5A1A05; --obj-rot:-3deg;">
+        <span class="platform">FACEBOOK · 1:1</span>
+        <span class="kh-tag">KH · OVERLAY</span>
+        <div class="cap">
+          <div class="kh">កាហ្វេថ្មីពីភ្នំពេញ</div>
+          <div class="en" style="color:#15201A;">A new cold brew, from your neighbourhood café.</div>
+        </div>
+      </div>
+      <div class="cell-caption"><span>FIG. 01 · ANGKOR BEANS</span><span class="credit">Café · BKK1</span></div>
+    </div>
+
+    <div class="cell cell-2">
+      <div class="mock" style="--bg-a:#FBE5C5; --bg-b:#E6B370; --obj-a:#7A3B12; --obj-b:#2A0F03; --obj-rot:5deg;">
+        <span class="platform">IG · 1:1</span>
+        <span class="kh-tag">KH</span>
+        <div class="cap">
+          <div class="kh" style="color:#15201A;">ខ្មែរ</div>
+          <div class="en" style="color:#15201A;">Festival</div>
+        </div>
+      </div>
+      <div class="cell-caption"><span>FIG. 02</span><span class="credit">Khmer Threads</span></div>
+    </div>
+
+    <div class="cell cell-3">
+      <div class="mock" style="--bg-a:#1B3F2A; --bg-b:#0E2418; --obj-a:#F2D9B5; --obj-b:#7A6435; --obj-rot:-6deg;">
+        <span class="platform">TIKTOK · 9:16</span>
+        <span class="kh-tag">KH · OVERLAY</span>
+        <div class="cap">
+          <div class="kh" style="color:#F2EAD3;">មីសុបនៅសុខសាន្ត</div>
+          <div class="en" style="color:#F2EAD3;">House-special</div>
+        </div>
+      </div>
+      <div class="cell-caption"><span>FIG. 03 · SOKSAN</span><span class="credit">Foodpanda</span></div>
+    </div>
+
+    <div class="cell cell-4">
+      <div class="mock" style="--bg-a:#F4A8C3; --bg-b:#C8537A; --obj-a:#DD4A14; --obj-b:#7A1010; --obj-rot:2deg;">
+        <span class="platform">SHOPEE</span>
+        <span class="kh-tag">KH</span>
+        <div class="cap">
+          <div class="kh" style="color:#15201A;">ស្បែកស្អាត</div>
+        </div>
+      </div>
+      <div class="cell-caption"><span>FIG. 04</span><span class="credit">Riel Beauty</span></div>
+    </div>
+
+    <div class="cell cell-5">
+      <div class="mock" style="--bg-a:#E9DFC2; --bg-b:#B89E68; --obj-a:#1B3F2A; --obj-b:#081A0F; --obj-rot:-2deg;">
+        <span class="platform">FB · 1:1</span>
+        <span class="kh-tag">KH</span>
+        <div class="cap">
+          <div class="kh" style="color:#15201A;">ឱសថ</div>
+          <div class="en" style="color:#15201A;">Mother's Day</div>
+        </div>
+      </div>
+      <div class="cell-caption"><span>FIG. 05</span><span class="credit">Bayon Pharma</span></div>
+    </div>
+
+    <div class="cell cell-6">
+      <div class="mock" style="--bg-a:#15201A; --bg-b:#1B3F2A; --obj-a:#DD4A14; --obj-b:#5A1A05; --obj-rot:0deg;">
+        <span class="platform">FACEBOOK · 16:9 BANNER</span>
+        <span class="kh-tag">KH · OVERLAY</span>
+        <div class="cap">
+          <div class="kh" style="color:#F2EAD3;">បើកហើយ ! ហាងថ្មីនៅទួលគោក</div>
+          <div class="en" style="color:#F2EAD3;">Now open in Toul Kork.</div>
+        </div>
+      </div>
+      <div class="cell-caption"><span>FIG. 06 · TONLE COFFEE</span><span class="credit">Café · Toul Kork</span></div>
+    </div>
+
+    <div class="cell cell-7">
+      <div class="mock" style="--bg-a:#F2EAD3; --bg-b:#D8C99A; --obj-a:#7A3B12; --obj-b:#2A0F03; --obj-rot:7deg;">
+        <span class="platform">SHOPEE · 1:1 HERO</span>
+        <span class="kh-tag">KH</span>
+        <div class="cap">
+          <div class="kh" style="color:#15201A;">សៀវភៅអាហារ</div>
+          <div class="en" style="color:#15201A;">Crispy &amp; Fresh.</div>
+        </div>
+      </div>
+      <div class="cell-caption"><span>FIG. 07</span><span class="credit">Mekong Snacks</span></div>
+    </div>
+  </div>
+
+  <div style="margin-top:48px; display:flex; align-items:baseline; justify-content:space-between; padding-top:28px; border-top:1px solid var(--line);">
+    <div style="font-family:var(--mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--mute);">
+      Browse 240+ visuals from the studio archive
+    </div>
+    <a href="#" class="btn btn-ghost">Open the gallery
+      <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+    </a>
+  </div>
+</section>
+
+<!-- ─── POLICY / PULL-QUOTE ──────────────────────────── -->
+<section id="policy" class="policy">
+  <div class="policy-inner">
+    <div class="kicker">Our position · The Khmer typography policy</div>
+    <h2>
+      We never let AI<br/>
+      <em>generate Khmer</em><br/>
+      inside an image.
+      <span class="km">អក្សរខ្មែរនៅក្នុងរូប — ត្រូវកំណត់ដោយដៃ ដោយអ្នកជំនាញ ដោយប្រើ​ហ្វុនយីហោរបស់​លោកអ្នក។</span>
+    </h2>
+    <div class="attribution">
+      <span class="dot"></span>
+      Every glyph is set by hand, in your brand's typeface, as an overlay layer. It is the difference between a studio &amp; a generator.
+    </div>
+  </div>
+</section>
+
+<!-- ─── PRICING ─────────────────────────────────────── -->
+<section id="pricing" class="pricing">
+  <div class="section-head">
+    <div class="num">№04</div>
+    <h2 class="title">Honest pricing,<br/><em>per bundle.</em></h2>
+    <div class="meta">
+      No subscription<br/>
+      Pay in ៛ at delivery<br/>
+      <div class="lead">Three sizes, designed for the shapes Cambodian SMEs actually buy. Most start with Studio.</div>
+    </div>
+  </div>
+
+  <!-- Plan header row -->
+  <div class="pricing-table">
+    <div class="label-col">
+      <strong>The bundles</strong>
+      Choose the size that matches your campaign — upgrade any time.
+    </div>
+    <div>
+      <div class="pricing-name">Starter</div>
+      <div class="pricing-price">$49<span class="unit">/ bundle</span></div>
+      <div style="font-family:var(--mono); font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--mute); margin-top:8px;">For weekly posts</div>
+    </div>
+    <div class="featured">
+      <div class="pricing-name">Studio <span class="tag">Most popular</span></div>
+      <div class="pricing-price">$129<span class="unit">/ bundle</span></div>
+      <div style="font-family:var(--mono); font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--signal); margin-top:8px;">Best for SMEs</div>
+    </div>
+    <div>
+      <div class="pricing-name">Scale</div>
+      <div class="pricing-price">Custom<span class="unit"></span></div>
+      <div style="font-family:var(--mono); font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--mute); margin-top:8px;">For agencies</div>
+    </div>
+  </div>
+
+  <!-- Feature rows -->
+  <div class="pricing-rows">
+    <div class="row-label">Platform-ready visuals</div>
+    <div class="cell">4</div>
+    <div class="cell featured" style="font-weight:500;">12</div>
+    <div class="cell">50+ / month</div>
+
+    <div class="row-label">Products covered</div>
+    <div class="cell">1</div>
+    <div class="cell featured">Up to 3</div>
+    <div class="cell">Unlimited</div>
+
+    <div class="row-label">First-draft turnaround</div>
+    <div class="cell">48 hours</div>
+    <div class="cell featured" style="font-weight:500;">24 hours</div>
+    <div class="cell">SLA · negotiable</div>
+
+    <div class="row-label">Revision rounds</div>
+    <div class="cell">1</div>
+    <div class="cell featured">2</div>
+    <div class="cell">Unlimited</div>
+
+    <div class="row-label">Khmer overlay (brand fonts)</div>
+    <div class="cell"><span class="check">✓</span></div>
+    <div class="cell featured"><span class="check">✓</span></div>
+    <div class="cell"><span class="check">✓</span></div>
+
+    <div class="row-label">Dedicated creative lead</div>
+    <div class="cell"><span class="dash">—</span></div>
+    <div class="cell featured"><span class="dash">—</span></div>
+    <div class="cell"><span class="check">✓</span></div>
+
+    <div class="row-label">Shared production board · API</div>
+    <div class="cell"><span class="dash">—</span></div>
+    <div class="cell featured"><span class="dash">—</span></div>
+    <div class="cell"><span class="check">✓</span></div>
+  </div>
+
+  <!-- CTA row -->
+  <div class="price-cta">
+    <div style="font-family:var(--news); font-style:italic; font-size:18px; color:var(--mute); line-height:1.3;">Not sure which? Send the brief — we'll suggest one back, free.</div>
+    <div><a href="/brief" class="btn btn-ghost">Start a brief</a></div>
+    <div class="featured"><a href="/brief" class="btn btn-primary">Start a brief</a></div>
+    <div><a href="/brief" class="btn btn-ghost">Book a call</a></div>
+  </div>
+</section>
+
+<!-- ─── CTA ─────────────────────────────────────────── -->
+<section id="cta" class="cta">
+  <h2>
+    Tell us about<br/>
+    your <em>shop.</em>
+    <span class="km">ប្រាប់យើងពីហាងរបស់​លោកអ្នក។</span>
+  </h2>
+  <div class="cta-actions">
+    <a href="/brief" class="btn btn-primary">
+      Start a brief · 4 minutes
+      <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+    </a>
+    <a href="/brief" class="btn btn-ghost">Or chat on Telegram</a>
+  </div>
+</section>
+
+<!-- ─── FOOTER ──────────────────────────────────────── -->
+<footer>
+  <div class="foot-grid">
+    <div>
+      <div class="foot-wordmark">AI Creative<span> · </span>Cambodia</div>
+      <p style="margin: 16px 0 0; font-size: 13.5px; color: rgba(242,234,211,.7); max-width: 280px; line-height:1.5;">
+        A studio for Cambodian small business.<br/>
+        #21 Street 308, BKK1, Phnom Penh.<br/>
+        <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="9af2fff6f6f5dafbf3f9e8fffbeef3ecffb4f1f2">[email&#160;protected]</a> · +855 23 900 100
+      </p>
+    </div>
+    <div>
+      <h4>Studio</h4>
+      <a href="#process">Process</a>
+      <a href="#work">Recent work</a>
+      <a href="#policy">Khmer policy</a>
+      <a href="#pricing">Pricing</a>
+    </div>
+    <div>
+      <h4>For clients</h4>
+      <a href="/admin">Sign in</a>
+      <a href="/brief">Start a brief</a>
+      <a href="/brief">Brand guide submission</a>
+      <a href="/brief">Telegram support</a>
+    </div>
+    <div>
+      <h4>Studio</h4>
+      <a href="#">Manifesto</a>
+      <a href="#">Careers · we're hiring</a>
+      <a href="#">Press kit</a>
+      <a href="#">Newsletter ⓘ</a>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <div>© 2026 AI Creative Cambodia Co., Ltd · កម្ពុជា</div>
+    <div>Privacy · Terms · Khmer typography policy</div>
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></body>
+</html>
